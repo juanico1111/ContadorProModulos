@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend/src/components/Documents/DocumentList.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: frontend/src/components/Documents/DocumentList.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import documentService from '../../services/documentService';
+import './DocumentList.css';
+
+/**
+ * Agrupa los documentos por mes y año.
+ * @param {Array} documents - Lista de documentos a agrupar.
+ * @returns {Object} Objeto con meses como claves y listas de documentos como valores.
+ */
+const groupByMonth = (documents) => {
+  return documents.reduce((acc, document) => {
+    const date = new Date(document.fecha);
+    const month = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+    if (!acc[month]) {
+      acc[month] = [];
+    }
+    acc[month].push(document);
+    return acc;
+  }, {});
+};
+
+/**
+ * Componente para listar documentos agrupados por mes.
+ * @function
+ * @returns {JSX.Element} El componente de lista de documentos.
+ */
+const DocumentList = () => {
+  const [documents, setDocuments] = useState({}); // Estado para almacenar documentos agrupados por mes
+  const [openMonth, setOpenMonth] = useState(null); // Estado para controlar el mes abierto en la vista
+
+  /**
+   * Obtiene los documentos del servicio y los agrupa por mes.
+   * @async
+   * @function
+   */
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const data = await documentService.getDocuments(); // Llama al servicio para obtener documentos
+        const groupedDocuments = groupByMonth(data); // Agrupa los documentos por mes
+        setDocuments(groupedDocuments); // Actualiza el estado con documentos agrupados
+      } catch (error) {
+        console.error('Error fetching documents:', error); // Maneja errores de la llamada al servicio
+      }
+    };
+    fetchDocuments(); // Ejecuta la función para obtener documentos al montar el componente
+  }, []);
+
+  /**
+   * Maneja la descarga de un documento.
+   * @param {string} id - ID del documento a descargar.
+   */
+  const handleDownload = (id) => {
+    window.location.href = `http://localhost:3000/documents/${id}/download`; // Redirige para descargar el documento
+  };
+
+  /**
+   * Alterna la visibilidad de los documentos para un mes específico.
+   * @param {string} month - Mes que se quiere mostrar u ocultar.
+   */
+  const toggleMonth = (month) => {
+    setOpenMonth(openMonth === month ? null : month); // Alterna el mes abierto
+  };
+
+  return (
+    &lt;div className="document-list">
+      &lt;h2>Lista de Documentos&lt;/h2>
+      &lt;div className="document-months">
+        {Object.keys(documents).map((month) => (
+          &lt;div key={month} className="document-month">
+            &lt;h3 onClick={() => toggleMonth(month)} className="month-header">
+              {month}
+              &lt;span className={`toggle-icon ${openMonth === month ? 'open' : ''}`}>▼&lt;/span>
+            &lt;/h3>
+            {openMonth === month &amp;&amp; (
+              &lt;div className="document-grid">
+                {documents[month].length > 0 ? (
+                  documents[month].map((doc) => (
+                    &lt;div key={doc._id} className="document-item">
+                      &lt;div className="document-thumbnail">
+                        {doc.filePath.endsWith('.pdf') ? (
+                          &lt;iframe
+                            src={`http://localhost:3000/documents/${doc._id}`}
+                            title={doc.nombre}
+                            className="pdf-viewer"
+                            allow="autoplay"
+                          />
+                        ) : (
+                          &lt;img
+                            src={`http://localhost:3000/documents/${doc._id}`}
+                            alt={doc.nombre}
+                            className="thumbnail-image"
+                          />
+                        )}
+                      &lt;/div>
+                      &lt;div className="document-info">
+                        &lt;h4>{doc.nombre}&lt;/h4>
+                        &lt;p>{doc.descripcion}&lt;/p>
+                        &lt;p>{new Date(doc.fecha).toLocaleDateString('es-ES')}&lt;/p>
+                        &lt;button onClick={() => handleDownload(doc._id)}>Descargar&lt;/button>
+                      &lt;/div>
+                    &lt;/div>
+                  ))
+                ) : (
+                  &lt;p>No se encontraron documentos.&lt;/p>
+                )}
+              &lt;/div>
+            )}
+          &lt;/div>
+        ))}
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+export default DocumentList;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DocumentList">DocumentList</a></li><li><a href="global.html#DocumentMenu">DocumentMenu</a></li><li><a href="global.html#DocumentUpload">DocumentUpload</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#TransactionForm">TransactionForm</a></li><li><a href="global.html#TransactionList">TransactionList</a></li><li><a href="global.html#TransactionMenu">TransactionMenu</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#comparePassword">comparePassword</a></li><li><a href="global.html#createTransaction">createTransaction</a></li><li><a href="global.html#deleteDocument">deleteDocument</a></li><li><a href="global.html#deleteTransaction">deleteTransaction</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#destination">destination</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fileFilter">fileFilter</a></li><li><a href="global.html#filePath">filePath</a></li><li><a href="global.html#filename">filename</a></li><li><a href="global.html#getAllTransactions">getAllTransactions</a></li><li><a href="global.html#getDocumentById">getDocumentById</a></li><li><a href="global.html#getDocuments">getDocuments</a></li><li><a href="global.html#getTransactionById">getTransactionById</a></li><li><a href="global.html#getTransactions">getTransactions</a></li><li><a href="global.html#groupByMonth">groupByMonth</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#nota">nota</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#peso">peso</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#tipo">tipo</a></li><li><a href="global.html#updateTransaction">updateTransaction</a></li><li><a href="global.html#uploadDocument">uploadDocument</a></li><li><a href="global.html#url">url</a></li><li><a href="global.html#username">username</a></li><li><a href="global.html#valor">valor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 24 2024 16:37:12 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

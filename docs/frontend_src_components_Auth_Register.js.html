@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend/src/components/Auth/Register.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: frontend/src/components/Auth/Register.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { register } from '../../services/authService';
+import './Auth.css'; // Importa el archivo CSS para estilos específicos del componente
+
+/**
+ * Componente de registro de usuario.
+ * @function
+ * @returns {JSX.Element} El componente de registro.
+ */
+const Register = () => {
+  const [username, setUsername] = useState(''); // Estado para almacenar el nombre de usuario
+  const [email, setEmail] = useState(''); // Estado para almacenar el correo electrónico
+  const [password, setPassword] = useState(''); // Estado para almacenar la contraseña
+  const [error, setError] = useState(''); // Estado para almacenar mensajes de error
+  const navigate = useNavigate(); // Hook para redirigir a otras rutas
+
+  /**
+   * Maneja el envío del formulario de registro.
+   * @param {React.FormEvent&lt;HTMLFormElement>} e - El evento del formulario.
+   * @returns {Promise&lt;void>}
+   */
+  const handleRegister = async (e) => {
+    e.preventDefault(); // Previene el comportamiento por defecto del formulario
+    try {
+      const response = await register({ username, email, password }); // Llama a la función de registro del servicio
+      console.log('Registro exitoso:', response); // Registra la respuesta en la consola
+      navigate('/menu'); // Redirige al menú principal en caso de éxito
+    } catch (err) {
+      setError('Error al registrar usuario'); // Muestra un mensaje de error en caso de fallo
+      console.error('Error al registrar usuario:', err); // Registra el error en la consola
+    }
+  };
+
+  return (
+    &lt;div className="auth-container">
+      &lt;h2>Register&lt;/h2>
+      {error &amp;&amp; &lt;p>{error}&lt;/p>} {/* Muestra el mensaje de error si existe */}
+      &lt;form onSubmit={handleRegister}>
+        &lt;label htmlFor="username">Username:&lt;/label>
+        &lt;input
+          type="text"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)} // Actualiza el estado del nombre de usuario
+          required
+        />
+        &lt;label htmlFor="email">Email:&lt;/label>
+        &lt;input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)} // Actualiza el estado del correo electrónico
+          required
+        />
+        &lt;label htmlFor="password">Password:&lt;/label>
+        &lt;input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} // Actualiza el estado de la contraseña
+          required
+        />
+        &lt;button type="submit">Register&lt;/button> {/* Botón para enviar el formulario */}
+      &lt;/form>
+    &lt;/div>
+  );
+};
+
+export default Register;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DocumentList">DocumentList</a></li><li><a href="global.html#DocumentMenu">DocumentMenu</a></li><li><a href="global.html#DocumentUpload">DocumentUpload</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#TransactionForm">TransactionForm</a></li><li><a href="global.html#TransactionList">TransactionList</a></li><li><a href="global.html#TransactionMenu">TransactionMenu</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#comparePassword">comparePassword</a></li><li><a href="global.html#createTransaction">createTransaction</a></li><li><a href="global.html#deleteDocument">deleteDocument</a></li><li><a href="global.html#deleteTransaction">deleteTransaction</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#destination">destination</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fileFilter">fileFilter</a></li><li><a href="global.html#filePath">filePath</a></li><li><a href="global.html#filename">filename</a></li><li><a href="global.html#getAllTransactions">getAllTransactions</a></li><li><a href="global.html#getDocumentById">getDocumentById</a></li><li><a href="global.html#getDocuments">getDocuments</a></li><li><a href="global.html#getTransactionById">getTransactionById</a></li><li><a href="global.html#getTransactions">getTransactions</a></li><li><a href="global.html#groupByMonth">groupByMonth</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#nota">nota</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#peso">peso</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#tipo">tipo</a></li><li><a href="global.html#updateTransaction">updateTransaction</a></li><li><a href="global.html#uploadDocument">uploadDocument</a></li><li><a href="global.html#url">url</a></li><li><a href="global.html#username">username</a></li><li><a href="global.html#valor">valor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 24 2024 16:37:12 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

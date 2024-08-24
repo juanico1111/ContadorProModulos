@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: backend/controllers/authController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: backend/controllers/authController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// controllers/authController.js
+const jwt = require('jsonwebtoken');
+const User = require('../models/auth');
+
+const jwtSecret = process.env.JWT_SECRET || 'your_jwt_secret'; // Guarda esto en una variable de entorno
+
+/**
+ * Registra un nuevo usuario en la base de datos.
+ * @async
+ * @function register
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @throws {Error} Si ocurre un error al registrar el usuario.
+ * @returns {void} Devuelve una respuesta JSON con el estado de la operación.
+ */
+const register = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    // Verificar si el usuario ya existe
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Nombre de usuario ya está en uso' });
+    }
+
+    // Crear nuevo usuario
+    const newUser = new User({ username, email, password });
+    await newUser.save();
+
+    res.status(201).json({ message: 'Usuario registrado exitosamente', user: newUser });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al registrar usuario', error });
+  }
+};
+
+/**
+ * Inicia sesión de un usuario y genera un token JWT.
+ * @async
+ * @function login
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @throws {Error} Si ocurre un error al iniciar sesión.
+ * @returns {void} Devuelve una respuesta JSON con el estado de la operación y el token JWT.
+ */
+const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Verificar si el usuario existe
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: 'Usuario o contraseña incorrectos' });
+    }
+
+    // Verificar la contraseña
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Usuario o contraseña incorrectos' });
+    }
+
+    // Generar token JWT
+    const token = jwt.sign({ id: user._id, username: user.username }, jwtSecret, { expiresIn: '1h' });
+
+    res.json({ message: 'Inicio de sesión exitoso', token });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al iniciar sesión', error });
+  }
+};
+
+module.exports = { register, login };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DocumentList">DocumentList</a></li><li><a href="global.html#DocumentMenu">DocumentMenu</a></li><li><a href="global.html#DocumentUpload">DocumentUpload</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#TransactionForm">TransactionForm</a></li><li><a href="global.html#TransactionList">TransactionList</a></li><li><a href="global.html#TransactionMenu">TransactionMenu</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#comparePassword">comparePassword</a></li><li><a href="global.html#createTransaction">createTransaction</a></li><li><a href="global.html#deleteDocument">deleteDocument</a></li><li><a href="global.html#deleteTransaction">deleteTransaction</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#destination">destination</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fileFilter">fileFilter</a></li><li><a href="global.html#filePath">filePath</a></li><li><a href="global.html#filename">filename</a></li><li><a href="global.html#getAllTransactions">getAllTransactions</a></li><li><a href="global.html#getDocumentById">getDocumentById</a></li><li><a href="global.html#getDocuments">getDocuments</a></li><li><a href="global.html#getTransactionById">getTransactionById</a></li><li><a href="global.html#getTransactions">getTransactions</a></li><li><a href="global.html#groupByMonth">groupByMonth</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#nota">nota</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#peso">peso</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#tipo">tipo</a></li><li><a href="global.html#updateTransaction">updateTransaction</a></li><li><a href="global.html#uploadDocument">uploadDocument</a></li><li><a href="global.html#url">url</a></li><li><a href="global.html#username">username</a></li><li><a href="global.html#valor">valor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 24 2024 16:37:12 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

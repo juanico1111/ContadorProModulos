@@ -1,0 +1,82 @@
+/* src/components/Documents/DocumentList.css */
+
+.document-list {
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco */
+  }
+  
+  .document-month {
+    margin-bottom: 20px;
+  }
+  
+  .month-header {
+    cursor: pointer;
+    background-color: #d4af37; /* Color dorado */
+    color: #000000; /* Texto negro */
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .toggle-icon {
+    margin-left: 10px;
+  }
+  
+  .document-grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .document-item {
+    background-color: #f4f4f4; /* Fondo gris claro */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 220px; /* Ajusta el ancho si es necesario */
+  }
+  
+  .document-thumbnail {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .thumbnail-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .pdf-viewer {
+    width: 100%;
+    height: 200px; /* Ajusta la altura según sea necesario */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .document-info {
+    text-align: center;
+  }
+  
+  .document-info h4 {
+    margin: 10px 0;
+    color: #000000; /* Texto negro */
+  }
+  
+  .document-info p {
+    color: #333333; /* Texto gris oscuro */
+  }
+  
+  button {
+    background-color: #d4af37; /* Color dorado */
+    color: #ffffff; /* Texto blanco */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #b5892f; /* Color dorado más oscuro en hover */
+  }
+  

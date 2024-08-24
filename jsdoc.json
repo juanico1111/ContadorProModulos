@@ -1,0 +1,21 @@
+{
+    "source": {
+      "include": [
+        "backend/controllers",
+        "backend/models",
+        "backend/routes",
+        "backend/utils",
+        "frontend/src/components",
+        "frontend/src/services",
+        "frontend/src/utils"
+      ],
+      "exclude": ["node_modules", "frontend/src/assets"]
+    },
+    "opts": {
+      "destination": "./docs",
+      "recurse": true,
+      "verbose": true
+    },
+    "plugins": ["node_modules/jsdoc-babel"]
+  }
+  

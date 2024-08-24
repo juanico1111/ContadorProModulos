@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: backend/routes/documentRoutes.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: backend/routes/documentRoutes.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const express = require('express');
+const multer = require('multer');
+const Document = require('../models/Document');
+const documentController = require('../controllers/documentController');
+
+const router = express.Router();
+
+// Configurar multer para manejar la carga de archivos
+const storage = multer.diskStorage({
+  /**
+   * Configura el destino para guardar archivos cargados.
+   * @param {express.Request} req - La solicitud HTTP.
+   * @param {Express.Multer.File} file - El archivo que se está cargando.
+   * @param {function} cb - Función de callback para indicar el destino del archivo.
+   */
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Asegúrate de que esta carpeta exista
+  },
+  /**
+   * Configura el nombre del archivo cargado.
+   * @param {express.Request} req - La solicitud HTTP.
+   * @param {Express.Multer.File} file - El archivo que se está cargando.
+   * @param {function} cb - Función de callback para indicar el nombre del archivo.
+   */
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  /**
+   * Filtra los archivos cargados permitiendo solo imágenes o PDFs.
+   * @param {express.Request} req - La solicitud HTTP.
+   * @param {Express.Multer.File} file - El archivo que se está cargando.
+   * @param {function} cb - Función de callback para indicar si se permite o no el archivo.
+   */
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Solo se permiten imágenes o PDFs'), false);
+    }
+  }
+});
+
+/**
+ * Ruta para subir un documento.
+ * @name POST /upload
+ * @function
+ * @memberof module:routes/documentRoutes
+ * @param {express.Request} req - La solicitud HTTP, que debe contener el archivo en el campo 'document'.
+ * @param {express.Response} res - La respuesta HTTP, que enviará el documento cargado o un mensaje de error.
+ * @param {express.NextFunction} next - La función para pasar el control al siguiente middleware.
+ * @returns {void}
+ */
+router.post('/upload', upload.single('document'), documentController.uploadDocument);
+
+/**
+ * Ruta para obtener todos los documentos.
+ * @name GET /
+ * @function
+ * @memberof module:routes/documentRoutes
+ * @param {express.Request} req - La solicitud HTTP.
+ * @param {express.Response} res - La respuesta HTTP, que enviará una lista de documentos o un mensaje de error.
+ * @param {express.NextFunction} next - La función para pasar el control al siguiente middleware.
+ * @returns {void}
+ */
+router.get('/', documentController.getDocuments);
+
+/**
+ * Ruta para obtener un documento por ID.
+ * @name GET /:id
+ * @function
+ * @memberof module:routes/documentRoutes
+ * @param {express.Request} req - La solicitud HTTP, que debe contener el ID del documento en los parámetros de la URL.
+ * @param {express.Response} res - La respuesta HTTP, que enviará el documento solicitado o un mensaje de error.
+ * @param {express.NextFunction} next - La función para pasar el control al siguiente middleware.
+ * @returns {void}
+ */
+router.get('/:id', documentController.getDocumentById);
+
+/**
+ * Ruta para eliminar un documento por ID.
+ * @name DELETE /:id
+ * @function
+ * @memberof module:routes/documentRoutes
+ * @param {express.Request} req - La solicitud HTTP, que debe contener el ID del documento en los parámetros de la URL.
+ * @param {express.Response} res - La respuesta HTTP, que enviará un mensaje de éxito o error.
+ * @param {express.NextFunction} next - La función para pasar el control al siguiente middleware.
+ * @returns {void}
+ */
+router.delete('/:id', documentController.deleteDocument);
+
+/**
+ * Ruta para descargar un documento en formato PDF.
+ * @name GET /:id/download
+ * @function
+ * @memberof module:routes/documentRoutes
+ * @param {express.Request} req - La solicitud HTTP, que debe contener el ID del documento en los parámetros de la URL.
+ * @param {express.Response} res - La respuesta HTTP, que iniciará la descarga del archivo o enviará un mensaje de error.
+ * @param {express.NextFunction} next - La función para pasar el control al siguiente middleware.
+ * @returns {void}
+ */
+router.get('/:id/download', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const document = await Document.findById(id);
+    if (!document) {
+      return res.status(404).json({ message: 'Documento no encontrado' });
+    }
+    res.download(document.filePath, document.nombre); // Descarga el archivo
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DocumentList">DocumentList</a></li><li><a href="global.html#DocumentMenu">DocumentMenu</a></li><li><a href="global.html#DocumentUpload">DocumentUpload</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#TransactionForm">TransactionForm</a></li><li><a href="global.html#TransactionList">TransactionList</a></li><li><a href="global.html#TransactionMenu">TransactionMenu</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#comparePassword">comparePassword</a></li><li><a href="global.html#createTransaction">createTransaction</a></li><li><a href="global.html#deleteDocument">deleteDocument</a></li><li><a href="global.html#deleteTransaction">deleteTransaction</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#destination">destination</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fileFilter">fileFilter</a></li><li><a href="global.html#filePath">filePath</a></li><li><a href="global.html#filename">filename</a></li><li><a href="global.html#getAllTransactions">getAllTransactions</a></li><li><a href="global.html#getDocumentById">getDocumentById</a></li><li><a href="global.html#getDocuments">getDocuments</a></li><li><a href="global.html#getTransactionById">getTransactionById</a></li><li><a href="global.html#getTransactions">getTransactions</a></li><li><a href="global.html#groupByMonth">groupByMonth</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#nota">nota</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#peso">peso</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#tipo">tipo</a></li><li><a href="global.html#updateTransaction">updateTransaction</a></li><li><a href="global.html#uploadDocument">uploadDocument</a></li><li><a href="global.html#url">url</a></li><li><a href="global.html#username">username</a></li><li><a href="global.html#valor">valor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 24 2024 16:37:12 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

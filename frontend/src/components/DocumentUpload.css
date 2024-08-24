@@ -1,0 +1,66 @@
+.document-upload {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco para el contenedor principal */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .document-upload h2 {
+    text-align: center;
+    color: #333; /* Color de texto negro para el título */
+    margin-bottom: 20px;
+  }
+  
+  .document-upload form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .document-upload label {
+    font-weight: bold;
+    color: #333; /* Color de texto negro para las etiquetas */
+  }
+  
+  .document-upload input[type="text"],
+  .document-upload input[type="number"],
+  .document-upload input[type="date"],
+  .document-upload textarea,
+  .document-upload input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .document-upload textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .document-upload button {
+    background-color: #d4af37; /* Color dorado para el botón */
+    color: #fff; /* Texto blanco */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .document-upload button:hover {
+    background-color: #b89f30; /* Color dorado más oscuro al pasar el ratón */
+  }
+  
+  .document-upload .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .document-upload .form-group input[type="file"] {
+    padding: 0;
+  }
+  

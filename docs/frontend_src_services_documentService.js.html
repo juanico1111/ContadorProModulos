@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend/src/services/documentService.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: frontend/src/services/documentService.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// src/services/documentService.js
+
+const API_URL = 'http://localhost:3000/documents'; // Asegúrate de que esta URL sea correcta
+
+/**
+ * Realiza una solicitud para subir un documento a la API.
+ * 
+ * @param {FormData} formData - Los datos del formulario que contienen el documento a subir.
+ * @returns {Promise&lt;Object>} - La respuesta de la API en formato JSON.
+ * @throws {Error} - Si ocurre un error durante la solicitud.
+ */
+const uploadDocument = (formData) => {
+  return fetch(`${API_URL}/upload`, {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => {
+      // Verifica si la respuesta es JSON
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text);
+        });
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+      throw error; // Re-lanza el error para que pueda ser manejado en el componente
+    });
+};
+
+/**
+ * Realiza una solicitud para obtener la lista de documentos desde la API.
+ * 
+ * @returns {Promise&lt;Object[]>} - La lista de documentos en formato JSON.
+ * @throws {Error} - Si ocurre un error durante la solicitud.
+ */
+const getDocuments = () => {
+  return fetch(API_URL)
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text);
+        });
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+      throw error; // Re-lanza el error para que pueda ser manejado en el componente
+    });
+};
+
+export default { uploadDocument, getDocuments };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DocumentList">DocumentList</a></li><li><a href="global.html#DocumentMenu">DocumentMenu</a></li><li><a href="global.html#DocumentUpload">DocumentUpload</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#TransactionForm">TransactionForm</a></li><li><a href="global.html#TransactionList">TransactionList</a></li><li><a href="global.html#TransactionMenu">TransactionMenu</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#comparePassword">comparePassword</a></li><li><a href="global.html#createTransaction">createTransaction</a></li><li><a href="global.html#deleteDocument">deleteDocument</a></li><li><a href="global.html#deleteTransaction">deleteTransaction</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#destination">destination</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fileFilter">fileFilter</a></li><li><a href="global.html#filePath">filePath</a></li><li><a href="global.html#filename">filename</a></li><li><a href="global.html#getAllTransactions">getAllTransactions</a></li><li><a href="global.html#getDocumentById">getDocumentById</a></li><li><a href="global.html#getDocuments">getDocuments</a></li><li><a href="global.html#getTransactionById">getTransactionById</a></li><li><a href="global.html#getTransactions">getTransactions</a></li><li><a href="global.html#groupByMonth">groupByMonth</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#nota">nota</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#peso">peso</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#tipo">tipo</a></li><li><a href="global.html#updateTransaction">updateTransaction</a></li><li><a href="global.html#uploadDocument">uploadDocument</a></li><li><a href="global.html#url">url</a></li><li><a href="global.html#username">username</a></li><li><a href="global.html#valor">valor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 24 2024 16:37:12 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

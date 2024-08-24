@@ -1,0 +1,52 @@
+/* src/components/Transactions/TransactionList.css */
+
+.transaction-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transaction-list h1 {
+    text-align: center;
+    color: #333; /* Color de texto */
+  }
+  
+  .transaction-month {
+    margin-bottom: 20px;
+  }
+  
+  .transaction-month h2 {
+    background-color: #ffd700; /* Color dorado */
+    color: #000; /* Texto negro */
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0;
+  }
+  
+  .transaction-month ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .transaction-list li {
+    margin: 10px 0;
+  }
+  
+  .transaction-item {
+    padding: 15px;
+    background-color: #f9f9f9; /* Fondo gris claro */
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .transaction-item p {
+    margin: 5px 0;
+  }
+  
+  .transaction-item p strong {
+    color: #333; /* Color del texto en negrita */
+  }
+  

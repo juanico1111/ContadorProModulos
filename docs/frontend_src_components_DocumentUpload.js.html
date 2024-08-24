@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend/src/components/DocumentUpload.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: frontend/src/components/DocumentUpload.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import documentService from '../services/documentService';
+import './DocumentUpload.css';
+
+/**
+ * Componente para subir un documento.
+ * 
+ * Permite al usuario ingresar detalles sobre el documento, seleccionar un archivo y subirlo al servidor.
+ * 
+ * @component
+ * @example
+ * return (
+ *   &lt;DocumentUpload />
+ * )
+ * @returns {JSX.Element} Formulario para la carga de documentos.
+ */
+const DocumentUpload = () => {
+  const [nombre, setNombre] = useState('');
+  const [peso, setPeso] = useState('');
+  const [url, setUrl] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [fecha, setFecha] = useState('');
+  const [document, setDocument] = useState(null);
+
+  /**
+   * Maneja el cambio en el campo de archivo.
+   * 
+   * @param {Event} e - Evento del cambio de archivo.
+   */
+  const handleFileChange = (e) => {
+    setDocument(e.target.files[0]);
+  };
+
+  /**
+   * Maneja el envío del formulario.
+   * 
+   * Valida los campos, crea un objeto FormData y lo envía al servidor usando documentService.
+   * 
+   * @param {Event} e - Evento de envío del formulario.
+   */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!nombre || !peso || !url || !fecha) {
+      alert('Nombre, peso, URL y fecha son campos obligatorios.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('peso', Number(peso));
+    formData.append('url', url);
+    formData.append('descripcion', descripcion);
+    formData.append('fecha', fecha);
+    formData.append('document', document);
+
+    try {
+      const response = await documentService.uploadDocument(formData);
+      console.log('Respuesta del servidor:', response);
+      alert('Documento subido con éxito.');
+    } catch (error) {
+      console.error('Error al subir el documento:', error);
+      alert('Error al subir el documento: ' + error.message);
+    }
+  };
+
+  return (
+    &lt;div className="document-upload">
+      &lt;h2>Subir Documento&lt;/h2>
+      &lt;form onSubmit={handleSubmit}>
+        &lt;div>
+          &lt;label>Nombre:&lt;/label>
+          &lt;input
+            type="text"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
+        &lt;/div>
+        &lt;div>
+          &lt;label>Peso (en números):&lt;/label>
+          &lt;input
+            type="number"
+            value={peso}
+            onChange={(e) => setPeso(e.target.value)}
+            required
+          />
+        &lt;/div>
+        &lt;div>
+          &lt;label>URL:&lt;/label>
+          &lt;input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            required
+          />
+        &lt;/div>
+        &lt;div>
+          &lt;label>Descripción (opcional):&lt;/label>
+          &lt;textarea
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+          />
+        &lt;/div>
+        &lt;div>
+          &lt;label>Fecha de Carga:&lt;/label>
+          &lt;input
+            type="date"
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
+            required
+          />
+        &lt;/div>
+        &lt;div>
+          &lt;label>Documento:&lt;/label>
+          &lt;input
+            type="file"
+            onChange={handleFileChange}
+            required
+          />
+        &lt;/div>
+        &lt;button type="submit">Subir Documento&lt;/button>
+      &lt;/form>
+    &lt;/div>
+  );
+};
+
+export default DocumentUpload;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DocumentList">DocumentList</a></li><li><a href="global.html#DocumentMenu">DocumentMenu</a></li><li><a href="global.html#DocumentUpload">DocumentUpload</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#TransactionForm">TransactionForm</a></li><li><a href="global.html#TransactionList">TransactionList</a></li><li><a href="global.html#TransactionMenu">TransactionMenu</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#comparePassword">comparePassword</a></li><li><a href="global.html#createTransaction">createTransaction</a></li><li><a href="global.html#deleteDocument">deleteDocument</a></li><li><a href="global.html#deleteTransaction">deleteTransaction</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#destination">destination</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fileFilter">fileFilter</a></li><li><a href="global.html#filePath">filePath</a></li><li><a href="global.html#filename">filename</a></li><li><a href="global.html#getAllTransactions">getAllTransactions</a></li><li><a href="global.html#getDocumentById">getDocumentById</a></li><li><a href="global.html#getDocuments">getDocuments</a></li><li><a href="global.html#getTransactionById">getTransactionById</a></li><li><a href="global.html#getTransactions">getTransactions</a></li><li><a href="global.html#groupByMonth">groupByMonth</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#nota">nota</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#peso">peso</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#tipo">tipo</a></li><li><a href="global.html#updateTransaction">updateTransaction</a></li><li><a href="global.html#uploadDocument">uploadDocument</a></li><li><a href="global.html#url">url</a></li><li><a href="global.html#username">username</a></li><li><a href="global.html#valor">valor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 24 2024 16:37:12 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

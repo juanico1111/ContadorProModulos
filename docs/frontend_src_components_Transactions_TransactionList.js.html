@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend/src/components/Transactions/TransactionList.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: frontend/src/components/Transactions/TransactionList.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import { getTransactions } from '../../services/transactionService';
+import './TransactionList.css'; // Importa los estilos
+
+/**
+ * Agrupa las transacciones por mes y año.
+ * 
+ * @param {Array} transactions - Array de transacciones a agrupar.
+ * @returns {Object} Un objeto donde las claves son los meses (formato "mes año") y los valores son arrays de transacciones.
+ */
+const groupByMonth = (transactions) => {
+  return transactions.reduce((acc, transaction) => {
+    const month = new Date(transaction.fecha).toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+    if (!acc[month]) {
+      acc[month] = [];
+    }
+    acc[month].push(transaction);
+    return acc;
+  }, {});
+};
+
+/**
+ * Componente para mostrar una lista de transacciones agrupadas por mes.
+ * 
+ * @component
+ * @example
+ * return (
+ *   &lt;TransactionList />
+ * )
+ * @returns {JSX.Element} La lista de transacciones agrupadas por mes.
+ */
+const TransactionList = () => {
+  const [transactions, setTransactions] = useState({});
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const data = await getTransactions();
+        const groupedTransactions = groupByMonth(data);
+        setTransactions(groupedTransactions);
+      } catch (error) {
+        console.error('Error al obtener las transacciones:', error);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
+  return (
+    &lt;div className="transaction-list">
+      &lt;h1>Lista de Transacciones&lt;/h1>
+      {Object.keys(transactions).length === 0 ? (
+        &lt;p>No hay transacciones para mostrar.&lt;/p>
+      ) : (
+        Object.entries(transactions).map(([month, transactions]) => (
+          &lt;div key={month} className="transaction-month">
+            &lt;h2>{month}&lt;/h2>
+            &lt;ul>
+              {transactions.map((transaction) => (
+                &lt;li key={transaction._id}>
+                  &lt;div className="transaction-item">
+                    &lt;p>&lt;strong>Descripción:&lt;/strong> {transaction.descripcion}&lt;/p>
+                    &lt;p>&lt;strong>Valor:&lt;/strong> ${transaction.valor}&lt;/p>
+                    &lt;p>&lt;strong>Tipo:&lt;/strong> {transaction.tipo === 'income' ? 'Ingreso' : 'Gasto'}&lt;/p>
+                    &lt;p>&lt;strong>Fecha:&lt;/strong> {new Date(transaction.fecha).toLocaleDateString('es-ES')}&lt;/p>
+                    {transaction.nota &amp;&amp; &lt;p>&lt;strong>Nota:&lt;/strong> {transaction.nota}&lt;/p>}
+                  &lt;/div>
+                &lt;/li>
+              ))}
+            &lt;/ul>
+          &lt;/div>
+        ))
+      )}
+    &lt;/div>
+  );
+};
+
+export default TransactionList;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#DocumentList">DocumentList</a></li><li><a href="global.html#DocumentMenu">DocumentMenu</a></li><li><a href="global.html#DocumentUpload">DocumentUpload</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#TransactionForm">TransactionForm</a></li><li><a href="global.html#TransactionList">TransactionList</a></li><li><a href="global.html#TransactionMenu">TransactionMenu</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#comparePassword">comparePassword</a></li><li><a href="global.html#createTransaction">createTransaction</a></li><li><a href="global.html#deleteDocument">deleteDocument</a></li><li><a href="global.html#deleteTransaction">deleteTransaction</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#destination">destination</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fileFilter">fileFilter</a></li><li><a href="global.html#filePath">filePath</a></li><li><a href="global.html#filename">filename</a></li><li><a href="global.html#getAllTransactions">getAllTransactions</a></li><li><a href="global.html#getDocumentById">getDocumentById</a></li><li><a href="global.html#getDocuments">getDocuments</a></li><li><a href="global.html#getTransactionById">getTransactionById</a></li><li><a href="global.html#getTransactions">getTransactions</a></li><li><a href="global.html#groupByMonth">groupByMonth</a></li><li><a href="global.html#handleResponse">handleResponse</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#nota">nota</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#peso">peso</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#tipo">tipo</a></li><li><a href="global.html#updateTransaction">updateTransaction</a></li><li><a href="global.html#uploadDocument">uploadDocument</a></li><li><a href="global.html#url">url</a></li><li><a href="global.html#username">username</a></li><li><a href="global.html#valor">valor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 24 2024 16:37:12 GMT-0500 (hora estándar de Colombia)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

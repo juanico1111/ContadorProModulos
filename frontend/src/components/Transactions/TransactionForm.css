@@ -1,0 +1,50 @@
+/* src/components/Transactions/TransactionForm.css */
+
+.transaction-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .transaction-form h1 {
+    text-align: center;
+    color: #333; /* Color de texto */
+  }
+  
+  .transaction-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .transaction-form label {
+    font-weight: bold;
+  }
+  
+  .transaction-form input[type="text"],
+  .transaction-form input[type="number"],
+  .transaction-form input[type="date"],
+  .transaction-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .transaction-form button {
+    background-color: #ffd700; /* Color dorado */
+    color: #000; /* Texto negro */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .transaction-form button:hover {
+    background-color: #ffcc00; /* Color dorado más claro al pasar el ratón */
+  }
+  
